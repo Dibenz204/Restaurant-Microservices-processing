@@ -8,6 +8,14 @@ A microservices-based restaurant management system built with Spring Boot.
 
 <img width="1795" height="882" alt="image" src="https://github.com/user-attachments/assets/66c74be6-cd86-4674-885f-3967941188b9" />
 
+# Currently under development
+
+- Payment Service
+- Ingredient Management Service
+- Kafka integration
+- Redis integration
+- Other planned microservice enhancements and infrastructure improvements.
+
 The project is composed of three microservices:
 
 | Service | Port | Database | Description |
