@@ -36,11 +36,6 @@ The project is composed of three microservices:
    docker-compose up -d
    ```
 
-4. **Build and run locally** (optional)
-   ```bash
-   ./gradlew clean build
-   ```
-
 ## Environment Variables
 
 The application uses environment variables for sensitive configuration.
