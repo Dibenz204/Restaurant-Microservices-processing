@@ -1,10 +1,15 @@
 HELP.md
 .gradle
+.gradletasknamecache
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+### Environment files ###
 .env
+.env.*
+!env-config.example
 
 ### STS ###
 .apt_generated

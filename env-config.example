@@ -1,0 +1,29 @@
+# ============================================================
+# Environment configuration template for Restaurant-Microservices
+# ============================================================
+# Copy this file to .env and fill in the values.
+# NEVER commit the actual .env file to version control.
+# ============================================================
+
+# Database passwords (REQUIRED - no defaults for security)
+AUTH_DB_PASSWORD=change_me
+MENU_DB_PASSWORD=change_me
+ORDER_DB_PASSWORD=change_me
+
+# Optional: Database names (defaults: auth_db, menu_db, order_db)
+# AUTH_DB_NAME=auth_db
+# MENU_DB_NAME=menu_db
+# ORDER_DB_NAME=order_db
+
+# Optional: Database users (defaults: user)
+# AUTH_DB_USER=user
+# MENU_DB_USER=user
+# ORDER_DB_USER=user
+
+# Optional: Port overrides
+# AUTH_DB_PORT=5432
+# MENU_DB_PORT=5433
+# ORDER_DB_PORT=5434
+# AUTH_SERVICE_PORT=8081
+# MENU_SERVICE_PORT=8082
+# ORDER_SERVICE_PORT=8083
