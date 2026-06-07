@@ -4,6 +4,10 @@ A microservices-based restaurant management system built with Spring Boot.
 
 ## Architecture
 
+## ERD Overview
+
+<img width="1795" height="882" alt="image" src="https://github.com/user-attachments/assets/66c74be6-cd86-4674-885f-3967941188b9" />
+
 The project is composed of three microservices:
 
 | Service | Port | Database | Description |
