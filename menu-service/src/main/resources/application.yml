@@ -1,8 +1,11 @@
+spring:
   application:
     name: menu-service
   datasource:
-    url: ${MENU_DB_URL:jdbc:postgresql://postgres-menu:5432/menu_db}
-    username: ${MENU_DB_USERNAME:user}
+    # Phải đồng bộ với biến môi trường đã khai báo ở docker-compose
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/menu_db}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+
     password: ${MENU_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:

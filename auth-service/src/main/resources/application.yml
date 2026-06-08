@@ -1,9 +1,11 @@
+spring:
   application:
     name: auth-service
   datasource:
-    url: ${AUTH_DB_URL:jdbc:postgresql://postgres-auth:5432/auth_db}
-    username: ${AUTH_DB_USERNAME:user}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/auth_db}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
     password: ${AUTH_DB_PASSWORD}
+
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
