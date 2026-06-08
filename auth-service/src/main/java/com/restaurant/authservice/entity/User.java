@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +37,15 @@ public class User {
     @Column(nullable = false)
     private Integer status;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<UserContact> contacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
+
     // ==================== Constructors ====================
 
     public User(String fullName, String address, String username, String password, String note, Integer status) {
@@ -44,6 +55,17 @@ public class User {
         this.password = password;
         this.note = note;
         this.status = status;
+    }
+
+    // Helper methods
+    public void addContact(UserContact contact) {
+        contacts.add(contact);
+        contact.setUser(this);
+    }
+
+    public void removeContact(UserContact contact) {
+        contacts.remove(contact);
+        contact.setUser(null);
     }
 
     // ==================== toString ====================
