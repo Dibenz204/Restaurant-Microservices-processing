@@ -2,37 +2,65 @@ package com.restaurant.menuservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "menu_items")
 public class MenuItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "menu_item_id")
+    private Long menuItemId;
 
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(precision = 17, scale = 2)
+    private BigDecimal price;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
-    private Double price;
-    private String category;
-    private Boolean available = true;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private Boolean available;
 
-    // Constructors
-    public MenuItem() {}
+    @Column(nullable = false)
+    private Integer status;
 
-    public MenuItem(String name, String description, Double price, String category, Boolean available) {
+    @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MenuItemImage> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MenuItemCategory> menuItemCategories = new ArrayList<>();
+
+    // ==================== Constructors ====================
+
+    public MenuItem(String name, BigDecimal price, String description, Boolean available, Integer status) {
         this.name = name;
-        this.description = description;
         this.price = price;
-        this.category = category;
-        this.available = true;
-        this.createdAt = LocalDateTime.now();
+        this.description = description;
+        this.available = available;
+        this.status = status;
+    }
+
+    // ==================== toString ====================
+
+    @Override
+    public String toString() {
+        return "MenuItem{" +
+                "menuItemId=" + menuItemId +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", available=" + available +
+                ", status=" + status +
+                '}';
     }
 }
