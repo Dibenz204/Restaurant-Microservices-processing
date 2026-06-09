@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS orders (
     order_id       BIGSERIAL PRIMARY KEY,
     customer_id    BIGINT,
     created_by     BIGINT,
-    approved_by    BIGINT       NOT NULL,
+    approved_by    BIGINT,
     order_code     TEXT         NOT NULL UNIQUE,
     table_number   VARCHAR(255),
     total_amount   DECIMAL(17, 2),
