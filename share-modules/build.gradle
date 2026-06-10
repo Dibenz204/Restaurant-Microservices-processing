@@ -1,0 +1,13 @@
+plugins {
+    id 'java-library'
+}
+
+description = 'shared-modules'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+}
+
+tasks.named('jar') {
+    enabled = true
+}
