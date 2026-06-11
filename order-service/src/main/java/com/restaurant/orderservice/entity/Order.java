@@ -27,7 +27,7 @@ public class Order {
     @Column(nullable = true)
     private Long createdBy;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long approvedBy;
 
     @Column(name = "order_code", columnDefinition = "TEXT", unique = true, nullable = false)
@@ -60,7 +60,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    // ==================== Constructors ====================
+    // ==================== Constructors =====================
 
     public Order(Long customerId, Long createdBy, Long approvedBy, String orderCode,
                  String tableNumber, BigDecimal totalAmount, String paymentMethod,
