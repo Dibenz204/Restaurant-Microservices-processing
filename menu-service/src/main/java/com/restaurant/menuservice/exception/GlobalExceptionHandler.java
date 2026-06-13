@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1. Bắt lỗi CHUNG: Không tìm thấy tài nguyên (Áp dụng khi tìm không thấy MenuItem, Category...)
+    // 1. Bắt lỗi chung: Không tìm thấy tài nguyên
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse<String>> handleResourceNotFound(ResourceNotFoundException ex) {
         ApiResponse<String> response = ApiResponse.notFound(ex.getMessage());
@@ -23,6 +23,13 @@ public class GlobalExceptionHandler {
     // 2. Bắt lỗi ĐẶC THÙ: Món ăn không có sẵn
     @ExceptionHandler(MenuNotAvailableException.class)
     public ResponseEntity<ApiResponse<String>> handleMenuNotAvailable(MenuNotAvailableException ex) {
+        ApiResponse<String> response = ApiResponse.badRequest(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // Lỗi 400
+    }
+
+    // 2b. Bắt lỗi ĐẶC THÙ: Danh mục không có sẵn
+    @ExceptionHandler(CategoryNotAvailableException.class)
+    public ResponseEntity<ApiResponse<String>> handleCategoryNotAvailable(CategoryNotAvailableException ex) {
         ApiResponse<String> response = ApiResponse.badRequest(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // Lỗi 400
     }
