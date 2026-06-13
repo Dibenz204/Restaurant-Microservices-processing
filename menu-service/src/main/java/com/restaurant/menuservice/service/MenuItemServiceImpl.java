@@ -57,7 +57,6 @@ public class MenuItemServiceImpl implements MenuItemService {
             }
         }
 
-        // 4. Lưu xuống DB
         menuItemRepository.save(menuItem);
     }
 
@@ -89,16 +88,20 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItem.setDescription(dto.getDescription());
         menuItem.setAvailable(dto.getAvailable());
 
-        menuItem.getImages().clear();
         if (dto.getImageUrls() != null) {
+            // 1. Xóa sạch bách danh sách ảnh cũ trong bộ nhớ tạm
+            menuItem.getImages().clear();
+
+            // 2. Nạp toàn bộ danh sách ảnh mới từ DTO vào
             for (String url : dto.getImageUrls()) {
                 MenuItemImage image = new MenuItemImage(menuItem, url, null, 1);
                 menuItem.getImages().add(image);
             }
         }
 
-        menuItem.getMenuItemCategories().clear();
         if (dto.getCategoryIds() != null) {
+            menuItem.getMenuItemCategories().clear();
+
             List<Category> categories = categoryRepository.findAllById(dto.getCategoryIds());
             for (Category category : categories) {
                 MenuItemCategory mic = new MenuItemCategory(category, menuItem, 1);
