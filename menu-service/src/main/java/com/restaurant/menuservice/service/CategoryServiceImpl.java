@@ -24,6 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void createCategory(CategoryCreateRequestDTO dto) {
+
+        if (categoryRepository.existsByName(dto.getName())) {   // Example for function of categoryRepository declaration
+            throw new RuntimeException("Category name already exists");
+        }
+
         Category category = new Category(
                 dto.getName(),
                 dto.getNote(),
@@ -35,7 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public List<CategoryDetailResponseDTO> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
+
+        List<Category> categories =
+                categoryRepository.findByStatus(1);  // get category with status 1
+
+//        List<Category> categories = categoryRepository.findAll();    // get all category
+
         return categories.stream()
                 .map(this::mapToDetailResponse)
                 .collect(Collectors.toList());
