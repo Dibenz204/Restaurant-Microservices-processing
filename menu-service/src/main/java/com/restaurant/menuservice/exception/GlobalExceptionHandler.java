@@ -34,6 +34,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // Lỗi 400
     }
 
+    // 2c. Bắt lỗi ĐẶC THÙ: Hình ảnh không có sẵn
+    @ExceptionHandler(ImageNotAvailableException.class)
+    public ResponseEntity<ApiResponse<String>> handleImageNotAvailable(ImageNotAvailableException ex) {
+        ApiResponse<String> response = ApiResponse.badRequest(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // Lỗi 400
+    }
+
     // 3. Bắt lỗi VALIDATION: Dữ liệu đầu vào không hợp lệ
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<String>> handleValidation(MethodArgumentNotValidException ex) {
