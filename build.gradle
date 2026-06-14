@@ -42,6 +42,8 @@ subprojects {
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+        implementation 'software.amazon.awssdk:s3:2.25.25'  // Cấu hình để lưu dữ liệu/biến đổi url img trên aws s3
     }
 
     tasks.named('test') {
