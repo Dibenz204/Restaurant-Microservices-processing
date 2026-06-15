@@ -35,7 +35,7 @@ public class MenuItemImageServiceImpl implements MenuItemImageService {
         MenuItem menuItem = menuItemRepository.findById(dto.getMenuItemId())
                 .orElseThrow(() -> new MenuNotAvailableException("Menu item not found with id: " + dto.getMenuItemId()));
 
-        // 2. Đẩy file vật lý lên AWS S3 để lấy URL thật về
+        // Đẩy dữ liệu lên AWS
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("File ảnh không được để trống khi tạo mới");
         }
