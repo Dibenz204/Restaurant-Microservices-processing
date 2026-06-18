@@ -1,0 +1,27 @@
+server:
+  port: 8080 # Dòng khai báo trên Fe
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # Auth-service
+        - id: auth-service-route
+          uri: http://auth-service:8080 # theo port Docker
+          predicates:
+            - Path=/api/auth/**  # Có thể điều chỉnh theo hướng nhiều phiên bản
+
+        # Menu-service
+        - id: menu-service-route
+          uri: http://menu-service:8080
+          predicates:
+            - Path=/api/v1/menus/**
+
+        # Order-service
+        - id: order-service-route
+          uri: http://order-service:8080
+          predicates:
+            - Path=/api/v1/orders/**
