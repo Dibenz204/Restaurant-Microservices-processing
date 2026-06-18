@@ -14,8 +14,6 @@ dependencies {
     implementation 'org.flywaydb:flyway-database-postgresql' // thêm dòng này
 
     runtimeOnly 'org.postgresql:postgresql'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 bootRun {

@@ -1,13 +1,13 @@
 plugins {
-    id 'java'
     id 'org.springframework.boot'
-    id 'io.spring.dependency-management'
 }
 
 description = 'menu-service'
 
 dependencies {
     implementation project(':share-modules')
+
+    implementation 'software.amazon.awssdk:s3:2.25.25'  // Cấu hình để lưu dữ liệu/biến đổi url img trên aws s3
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -16,6 +16,4 @@ dependencies {
     implementation 'org.flywaydb:flyway-database-postgresql'
 
     runtimeOnly 'org.postgresql:postgresql'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
