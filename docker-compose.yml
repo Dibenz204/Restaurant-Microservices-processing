@@ -1,4 +1,5 @@
 services:
+  # Cấu hình database
   postgres-auth:
     image: postgres:15
     environment:
@@ -9,24 +10,8 @@ services:
       - "${AUTH_DB_PORT:-5435}:5432"
     volumes:
       - postgres-auth-data:/var/lib/postgresql/data
-
-  auth-service:
-    build:
-      context: .
-      dockerfile: ./auth-service/Dockerfile
-    ports:
-      - "${AUTH_SERVICE_PORT:-8081}:8080"
-    deploy:
-      resources:
-        limits:
-          memory: 250M
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-auth:5432/${AUTH_DB_NAME:-auth_db}
-      SPRING_DATASOURCE_USERNAME: ${AUTH_DB_USER:-user}
-      SPRING_DATASOURCE_PASSWORD: ${AUTH_DB_PASSWORD}
-      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD}
-    depends_on:
-      - postgres-auth
+    networks:
+      - restaurant-network
 
   postgres-menu:
     image: postgres:15
@@ -38,13 +23,64 @@ services:
       - "${MENU_DB_PORT:-5433}:5432"
     volumes:
       - postgres-menu-data:/var/lib/postgresql/data
+    networks:
+      - restaurant-network
+
+  postgres-order:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${ORDER_DB_NAME:-order_db}
+      POSTGRES_USER: ${ORDER_DB_USER:-user}
+      POSTGRES_PASSWORD: ${ORDER_DB_PASSWORD}
+    ports:
+      - "${ORDER_DB_PORT:-5434}:5432"
+    volumes:
+      - postgres-order-data:/var/lib/postgresql/data
+    networks:
+      - restaurant-network
+
+  # Cấu hình api gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - menu-service
+      - order-service
+    networks:
+      - restaurant-network
+
+  # Cấu hình các service
+  auth-service:
+    build:
+      context: .
+      dockerfile: ./auth-service/Dockerfile
+#    ports:  //Do đã được api gateway điều hướng
+#      - "${AUTH_SERVICE_PORT:-8081}:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-auth:5432/${AUTH_DB_NAME:-auth_db}
+      SPRING_DATASOURCE_USERNAME: ${AUTH_DB_USER:-user}
+      SPRING_DATASOURCE_PASSWORD: ${AUTH_DB_PASSWORD}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD}
+    depends_on:
+      - postgres-auth
+    networks:
+      - restaurant-network
 
   menu-service:
     build:
       context: .
       dockerfile: ./menu-service/Dockerfile
-    ports:
-      - "${MENU_SERVICE_PORT:-8082}:8080"
+#    ports:
+#      - "${MENU_SERVICE_PORT:-8082}:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-menu:5432/${MENU_DB_NAME:-menu_db}
       SPRING_DATASOURCE_USERNAME: ${MENU_DB_USER:-user}
@@ -57,24 +93,15 @@ services:
       AWS_S3_BUCKET_NAME: ${AWS_S3_BUCKET_NAME}
     depends_on:
       - postgres-menu
-
-  postgres-order:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: ${ORDER_DB_NAME:-order_db}
-      POSTGRES_USER: ${ORDER_DB_USER:-user}
-      POSTGRES_PASSWORD: ${ORDER_DB_PASSWORD}
-    ports:
-      - "${ORDER_DB_PORT:-5434}:5432"
-    volumes:
-      - postgres-order-data:/var/lib/postgresql/data
+    networks:
+      - restaurant-network
 
   order-service:
     build:
       context: .
       dockerfile: ./order-service/Dockerfile
-    ports:
-      - "${ORDER_SERVICE_PORT:-8083}:8080"
+#    ports:
+#      - "${ORDER_SERVICE_PORT:-8083}:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-order:5432/${ORDER_DB_NAME:-order_db}
       SPRING_DATASOURCE_USERNAME: ${ORDER_DB_USER:-user}
@@ -82,8 +109,14 @@ services:
       ORDER_DB_PASSWORD: ${ORDER_DB_PASSWORD}
     depends_on:
       - postgres-order
+    networks:
+      - restaurant-network
 
 volumes:
   postgres-auth-data:
   postgres-menu-data:
   postgres-order-data:
+
+networks:
+  restaurant-network:
+    driver: bridge
