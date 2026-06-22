@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: auth-service
@@ -15,5 +18,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-server:
-  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET}        # key >= 256 bit, để trong .env
+  access-token-expiry: 900000  # 15 phút (ms)
+  refresh-token-expiry: 604800000

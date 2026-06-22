@@ -1,10 +1,11 @@
 server:
   port: 8080 # Dòng khai báo trên Fe
 
+jwt:
+  secret: ${JWT_SECRET}
 spring:
   application:
     name: api-gateway
-
   cloud:
     gateway:
       routes:
@@ -18,10 +19,10 @@ spring:
         - id: menu-service-route
           uri: http://menu-service:8080
           predicates:
-            - Path=/api/v1/menus/**
+            - Path=/api/menu-items/**,/api/menu-item-images/**,/api/categories/**
 
         # Order-service
         - id: order-service-route
           uri: http://order-service:8080
           predicates:
-            - Path=/api/v1/orders/**
+            - Path=/api/orders/**
