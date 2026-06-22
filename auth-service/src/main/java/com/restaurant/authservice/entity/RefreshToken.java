@@ -27,15 +27,16 @@ public class RefreshToken {
     @Column(name = "expiry_date", nullable = false)
     private LocalDateTime expiryDate;
 
-    // ==================== Constructors ====================
+    // Dùng để so sánh thời gian trong hệ thống thay vì so với thời gian bên ngàoi
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expiryDate);
+    }
 
     public RefreshToken(User user, String token, LocalDateTime expiryDate) {
         this.user = user;
         this.token = token;
         this.expiryDate = expiryDate;
     }
-
-    // ==================== toString ====================
 
     @Override
     public String toString() {
